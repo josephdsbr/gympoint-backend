@@ -12,6 +12,7 @@ import AuthAdminMiddleware from './app/middlewares/admin-auth';
 const routes = new Router();
 
 routes.post('/users', UserController.store);
+routes.get('/users', UserController.index);
 routes.post('/sessions', SessionController.store);
 
 routes.post('/students', AuthAdminMiddleware, StudentController.store);

@@ -9,6 +9,9 @@ class SessionController {
       email: Yup.string()
         .email()
         .required(),
+      access_level: Yup.number()
+        .double()
+        .min(0),
       password: Yup.string().required(),
     });
 

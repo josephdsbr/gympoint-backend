@@ -2,7 +2,13 @@ import * as Yup from 'yup';
 import User from '../models/Users';
 
 class UserController {
-  /* CReating a new user in the database with the method Store() */
+async index(req, res) {
+    const user = await User.findAll();
+
+    return res.json(user);
+  }
+
+  /* Creating a new user in the database with the method Store() */
 
   async store(req, res) {
     /* Defining a Schema to Entry data Validation */

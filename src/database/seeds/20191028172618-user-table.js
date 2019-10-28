@@ -1,8 +1,6 @@
-'use strict';
-
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('students', {
+    return queryInterface.createTable('users', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -18,17 +16,14 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-      age: {
+      password_hash: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      access_level: {
         type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      weight: {
-        type: Sequelize.DOUBLE,
-        allowNull: true,
-      },
-      height: {
-        type: Sequelize.DOUBLE,
-        allowNull: true,
+        defaultValue: 3,
+        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -36,19 +31,12 @@ module.exports = {
       },
       updated_at: {
         type: Sequelize.DATE,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     });
   },
 
   down: (queryInterface, Sequelize) => {
-    /*
-      Add reverting commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkDelete('People', null, {});
-    */
-   return queryInterface.dropTable('students');
-  }
+    return queryInterface.dropTable('users');
+  },
 };
