@@ -1,4 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
+import Plan from './Plans';
 
 class Enrollment extends Model {
   static init(sequelize) {
@@ -12,6 +13,26 @@ class Enrollment extends Model {
       },
       { sequelize }
     );
+
+    this.addHook('beforeSave', async enrollment => {
+      const { duration, price } = await Plan.findOne({
+        where: { id: enrollment.plan_id },
+      });
+
+      /**
+       * Setting date
+       */
+
+      const date = new Date(enrollment.start_date.getTime());
+
+      enrollment.end_date = new Date(date.setMonth(date.getMonth() + duration));
+
+      /**
+       * Setting price
+       */
+
+      enrollment.price = price;
+    });
 
     return this;
   }
