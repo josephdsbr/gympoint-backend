@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
 import Student from '../models/Students';
-import User from '../models/Users';
 
 class StudentController {
   /* Creating a new Student in the database with the method Store() */

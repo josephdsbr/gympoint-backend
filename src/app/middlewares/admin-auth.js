@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { promisify } from 'util';
 import authConfig from '../../config/auth';
+import User from '../models/Users';
 
 export default async (req, res, next) => {
   /* Taking informations from Request's Header */
@@ -21,12 +22,12 @@ export default async (req, res, next) => {
     /* Decoding token to get informations about user */
 
     const decoded = await promisify(jwt.verify)(token, authConfig.secret);
+    const user = await User.findOne({ where: { id: decoded.id } });
 
     /* Verifing if user is authorizated to make the Request */
-    const { email } = decoded;
 
-    if (!(email === authConfig.adminEmail)) {
-      return res.status(401).json({ entity: { error: 'Not Authorized!' } });
+    if (!(authConfig.adminAccessLevel === user.access_level)) {
+      return res.status(401).json({ error: 'Forbidden' });
     }
 
     /* Storing User ID */

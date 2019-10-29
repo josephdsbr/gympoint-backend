@@ -9,14 +9,11 @@ class SessionController {
       email: Yup.string()
         .email()
         .required(),
-      access_level: Yup.number()
-        .double()
-        .min(0),
       password: Yup.string().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(401).json({ error: 'Validation failds' });
+      return res.status(401).json({ error: 'Validation fails' });
     }
 
     const { email, password } = req.body;
