@@ -2,6 +2,11 @@ import * as Yup from 'yup';
 import Student from '../models/Students';
 
 class StudentController {
+  async index(req, res) {
+    const student = await Student.findAll();
+    return res.json(student);
+  }
+
   /* Creating a new Student in the database with the method Store() */
 
   async store(req, res) {
@@ -46,6 +51,10 @@ class StudentController {
 
   async update(req, res) {
     const schema = Yup.object().shape({
+      id: Yup.number()
+        .integer()
+        .positive()
+        .required(),
       name: Yup.string(),
       email: Yup.string()
         .email()
@@ -59,15 +68,15 @@ class StudentController {
       return res.status(401).json({ entity: { error: 'Validation fails' } });
     }
 
-    const { email } = req.body;
+    const { id } = req.body;
 
-    const studentExists = await Student.findOne({ where: { email } });
+    const studentExists = await Student.findOne({ where: { id } });
 
     if (!studentExists) {
       return res.status(401).json({ entity: { error: 'Student not found' } });
     }
 
-    const { name } = await Student.update(req.body);
+    const { name, email } = await Student.update(req.body);
 
     return res.json({
       entity: {

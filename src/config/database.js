@@ -1,10 +1,10 @@
 module.exports = {
   dialect: 'postgres',
-  host: '192.168.99.100',
+  host: 'localhost',
   username: 'postgres',
-  password: 'docker',
+  password: 'gympassdocker',
   database: 'gympoint',
-  port: 5432,
+  port: 6000,
   define: {
     timestamps: true,
     underscored: true,
