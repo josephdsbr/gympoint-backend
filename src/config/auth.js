@@ -1,6 +1,8 @@
+require('dotenv/config');
+
 module.exports = {
-  secret: '36828012b7696ab64196e0f636018a2e',
-  expiresIn: '7d',
-  adminEmail: 'admin@gympoint.com',
-  adminAccessLevel: 1,
+  secret: process.env.AUTH_SECRET,
+  expiresIn: process.env.AUTH_EXPIRES_IN,
+  adminEmail: process.env.ADMIN_EMAIL,
+  adminAccessLevel: parseInt(process.env.ADMIN_ACCESS_LEVEL, 10),
 };

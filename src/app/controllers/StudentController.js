@@ -1,17 +1,30 @@
+/** Libraries Imports */
 import * as Yup from 'yup';
+/** Models Imports */
 import Student from '../models/Students';
 
 class StudentController {
+  /**
+   * List all Students
+   * @param {*} req
+   * @param {*} res
+   */
+
   async index(req, res) {
     const student = await Student.findAll();
     return res.json(student);
   }
 
-  /* Creating a new Student in the database with the method Store() */
+  /**
+   * Store a Student
+   * @param {*} req
+   * @param {*} res
+   */
 
   async store(req, res) {
-    /* Defining a Schema to ENTRY DATA VALIDATION */
-
+    /**
+     * Input validator
+     */
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       email: Yup.string()
@@ -24,9 +37,15 @@ class StudentController {
       height: Yup.number().min(0),
     });
 
+    /** Request validation */
+
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation Fails' });
     }
+
+    /**
+     * Student validation
+     */
 
     const studentExists = await Student.findOne({
       where: { email: req.body.email },
@@ -35,6 +54,10 @@ class StudentController {
     if (studentExists) {
       return res.status(401).json({ error: 'E-mail already used' });
     }
+
+    /**
+     * Storing and returning student
+     */
 
     const { id, name, email } = await Student.create(req.body);
 
@@ -49,7 +72,17 @@ class StudentController {
     });
   }
 
+  /**
+   * Update a student
+   * @param {*} req
+   * @param {*} res
+   */
+
   async update(req, res) {
+    /**
+     * Request validator
+     */
+
     const schema = Yup.object().shape({
       id: Yup.number()
         .integer()
@@ -68,6 +101,10 @@ class StudentController {
       return res.status(401).json({ entity: { error: 'Validation fails' } });
     }
 
+    /**
+     * Student validation
+     */
+
     const { id } = req.body;
 
     const studentExists = await Student.findOne({ where: { id } });
@@ -75,6 +112,10 @@ class StudentController {
     if (!studentExists) {
       return res.status(401).json({ entity: { error: 'Student not found' } });
     }
+
+    /**
+     * Updating and return Student
+     */
 
     const { name, email } = await Student.update(req.body);
 

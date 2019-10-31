@@ -1,9 +1,19 @@
+/** Libraries Imports */
 import * as Yup from 'yup';
-import HelpOthers from '../models/HelpOthers';
+/** Models Imports */
+import HelpOrder from '../models/HelpOrders';
 import Student from '../models/Students';
 
-class HelpOtherController {
+class HelpOrderController {
+  /**
+   * List specific Student's HElpOrder
+   * @param {*} req
+   * @param {*} res
+   */
   async index(req, res) {
+    /**
+     * Student validation
+     */
     const { studentId } = req.params;
 
     if (!studentId) {
@@ -16,16 +26,29 @@ class HelpOtherController {
       return res.status(400).json({ error: 'Validation Fails' });
     }
 
-    const helpOther = await HelpOthers.findAll({
+    /**
+     * Returning List of HelpOrders
+     */
+
+    const helpOrder = await HelpOrder.findAll({
       where: {
         student_id: studentId,
       },
     });
 
-    return res.json(helpOther);
+    return res.json(helpOrder);
   }
 
+  /**
+   * Store a HelpOrder
+   * @param {*} req
+   * @param {*} res
+   */
+
   async store(req, res) {
+    /**
+     * Request validator
+     */
     const schema = Yup.object().shape({
       question: Yup.string()
         .max(255)
@@ -35,6 +58,10 @@ class HelpOtherController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
     }
+
+    /**
+     * Student validation
+     */
 
     const { studentId } = req.params;
 
@@ -48,12 +75,16 @@ class HelpOtherController {
       return res.status(400).json({ error: 'User does not exist' });
     }
 
+    /**
+     * Creating and Returning HelpOrder
+     */
+
     req.body.student_id = studentId;
 
-    const helpOther = await HelpOthers.create(req.body);
+    const helpOrder = await HelpOrder.create(req.body);
 
-    return res.json({ helpOther });
+    return res.json({ helpOrder });
   }
 }
 
-export default new HelpOtherController();
+export default new HelpOrderController();

@@ -7,9 +7,9 @@ import StudentController from './app/controllers/StudentController';
 import PlanController from './app/controllers/PlanController';
 import EnrollmentController from './app/controllers/EnrollmentController';
 import CheckinController from './app/controllers/CheckinController';
-import HelpOtherNotAnswerController from './app/controllers/HelpOtherNotAnswerController';
-import HelpOtherController from './app/controllers/HelpOtherController';
-import HelpOtherAnswerController from './app/controllers/HelpOtherAnswerController';
+import HelpOrderNotAnswerController from './app/controllers/HelpOrderNotAnswerController';
+import HelpOrderController from './app/controllers/HelpOrderController';
+import HelpOrderAnswerController from './app/controllers/HelpOrderAnswerController';
 /* Middlewares imports */
 import AuthMiddleware from './app/middlewares/auth';
 import AuthAdminMiddleware from './app/middlewares/admin-auth';
@@ -22,17 +22,17 @@ routes.post('/students', AuthAdminMiddleware, StudentController.store);
 routes.get('/students', AuthAdminMiddleware, StudentController.index);
 
 routes.get(
-  '/students/help-others-not-answer',
-  HelpOtherNotAnswerController.index
+  '/students/help-orders-not-answer',
+  HelpOrderNotAnswerController.index
 );
 
-routes.post('/students/:studentId/help-others', HelpOtherController.store);
-routes.get('/students/:studentId/help-others', HelpOtherController.index);
+routes.post('/students/:studentId/help-orders', HelpOrderController.store);
+routes.get('/students/:studentId/help-orders', HelpOrderController.index);
 
 routes.post(
-  '/help-others/:id/anwser',
+  '/help-orders/:id/anwser',
   AuthAdminMiddleware,
-  HelpOtherAnswerController.store
+  HelpOrderAnswerController.store
 );
 
 routes.get(

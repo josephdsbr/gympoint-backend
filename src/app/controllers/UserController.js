@@ -1,17 +1,30 @@
+/** Libraries Imports */
 import * as Yup from 'yup';
+/** Models Imports */
 import User from '../models/Users';
 
 class UserController {
-async index(req, res) {
+  /**
+   * List all users
+   * @param {*} req
+   * @param {*} res
+   */
+  async index(req, res) {
     const user = await User.findAll();
 
     return res.json(user);
   }
 
-  /* Creating a new user in the database with the method Store() */
+  /**
+   * Store a User
+   * @param {*} req
+   * @param {*} res
+   */
 
   async store(req, res) {
-    /* Defining a Schema to Entry data Validation */
+    /**
+     * Input validator
+     */
 
     const schema = Yup.object().shape({
       name: Yup.string().required(),
@@ -23,17 +36,24 @@ async index(req, res) {
         .min(6),
     });
 
-    /* Entry data validation */
-
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation Fails' });
     }
+
+    /**
+     * User validation
+     */
 
     const userExists = await User.findOne({ where: { email: req.body.email } });
 
     if (userExists) {
       return res.status(401).json({ error: 'E-mail already used.' });
     }
+
+    /**
+     * Creating and returning User
+     */
+
     const { id, name, email, password_hash, provider } = await User.create(
       req.body
     );
@@ -47,7 +67,17 @@ async index(req, res) {
     });
   }
 
+  /**
+   * Update a user
+   * @param {*} req
+   * @param {*} res
+   */
+
   async update(req, res) {
+    /**
+     * Request validator
+     */
+
     const schema = Yup.object().shape({
       name: Yup.string(),
       email: Yup.string().email(),
@@ -66,9 +96,15 @@ async index(req, res) {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
+    /**
+     * User validation
+     */
+
     const { email, oldPassword } = req.body;
 
     const user = await User.findByPk(req.userId);
+
+    /** E-mail validation */
 
     if (email !== user.email) {
       const userExists = await User.findOne({ where: { email } });
@@ -77,9 +113,17 @@ async index(req, res) {
         return res.status(400).json({ error: 'User already exists' });
       }
     }
+
+    /** Check password */
+
     if (oldPassword && !(await user.checkPassword(oldPassword))) {
       return res.status(401).json({ error: 'Password does not match' });
     }
+
+    /**
+     * Updating and Returning User
+     */
+
     const { id, name, provider } = await user.update(req.body);
 
     return res.json({

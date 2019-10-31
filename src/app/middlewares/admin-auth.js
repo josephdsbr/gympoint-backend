@@ -25,7 +25,6 @@ export default async (req, res, next) => {
     const user = await User.findOne({ where: { id: decoded.id } });
 
     /* Verifing if user is authorizated to make the Request */
-
     if (!(authConfig.adminAccessLevel === user.access_level)) {
       return res.status(401).json({ error: 'Forbidden' });
     }

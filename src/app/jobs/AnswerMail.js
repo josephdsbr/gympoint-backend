@@ -1,3 +1,4 @@
+/** Others */
 import Mail from '../../lib/Mail';
 
 class AnswerMail {
@@ -5,21 +6,27 @@ class AnswerMail {
    * Creating a unique key for the job
    * (each job has to have an unique key)
    */
+
   get key() {
     return 'AnswerMail';
   }
 
+  /**
+   * Executed by the job
+   * @param {helpOrder} data
+   */
+
   async handle({ data }) {
-    const { helpOther } = data;
+    const { helpOrder } = data;
 
     await Mail.sendMail({
-      to: `${helpOther.student.email} <>`,
+      to: `${helpOrder.student.email} <>`,
       subject: 'Resposta ao Questionamento',
       template: 'answer-help',
       context: {
-        student_name: helpOther.student.name,
-        question: helpOther.question,
-        answer: helpOther.answer,
+        student_name: helpOrder.student.name,
+        question: helpOrder.question,
+        answer: helpOrder.answer,
       },
     });
   }
