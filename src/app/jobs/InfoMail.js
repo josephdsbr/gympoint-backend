@@ -15,8 +15,6 @@ class InfoMail {
   async handle({ data }) {
     const { enrollment } = data;
 
-    console.log('Email foi enviado');
-
     await Mail.sendMail({
       to: `${enrollment.student.email} <>`,
       subject: 'Confirmação de Cadastro',

@@ -7,6 +7,9 @@ import StudentController from './app/controllers/StudentController';
 import PlanController from './app/controllers/PlanController';
 import EnrollmentController from './app/controllers/EnrollmentController';
 import CheckinController from './app/controllers/CheckinController';
+import HelpOtherNotAnswerController from './app/controllers/HelpOtherNotAnswerController';
+import HelpOtherController from './app/controllers/HelpOtherController';
+import HelpOtherAnswerController from './app/controllers/HelpOtherAnswerController';
 /* Middlewares imports */
 import AuthMiddleware from './app/middlewares/auth';
 import AuthAdminMiddleware from './app/middlewares/admin-auth';
@@ -18,8 +21,26 @@ routes.post('/sessions', SessionController.store);
 routes.post('/students', AuthAdminMiddleware, StudentController.store);
 routes.get('/students', AuthAdminMiddleware, StudentController.index);
 
-routes.get('/checkin/:userId', CheckinController.index);
-routes.post('/checkin', CheckinController.store);
+routes.get(
+  '/students/help-others-not-answer',
+  HelpOtherNotAnswerController.index
+);
+
+routes.post('/students/:studentId/help-others', HelpOtherController.store);
+routes.get('/students/:studentId/help-others', HelpOtherController.index);
+
+routes.post(
+  '/help-others/:id/anwser',
+  AuthAdminMiddleware,
+  HelpOtherAnswerController.store
+);
+
+routes.get(
+  '/students/:studentId/checkins',
+  AuthAdminMiddleware,
+  CheckinController.index
+);
+routes.post('/students/:studentId/checkins', CheckinController.store);
 
 routes.post('/plans', AuthAdminMiddleware, PlanController.store);
 routes.put('/plans/:id', AuthAdminMiddleware, PlanController.update);
