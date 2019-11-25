@@ -6,6 +6,7 @@ import Student from '../models/Students';
 import Plan from '../models/Plans';
 /** Jobs */
 import InfoMail from '../jobs/InfoMail';
+/** Models */
 /** Others */
 import Queue from '../../lib/Queue';
 
@@ -17,7 +18,21 @@ class EnrollmentController {
    */
 
   async index(req, res) {
-    const enrollment = await Enrollment.findAll();
+    const enrollment = await Enrollment.findAll({
+      attributes: ['id', 'start_date', 'end_date', 'price', 'active'],
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['name'],
+        },
+        {
+          model: Plan,
+          as: 'plan',
+          attributes: ['title'],
+        },
+      ],
+    });
 
     return res.json(enrollment);
   }

@@ -1,6 +1,8 @@
 /** Libraries Imports */
 import * as Yup from 'yup';
+import { parse, stringify } from 'qs';
 /** Models Imports */
+import { Op } from 'sequelize';
 import User from '../models/Users';
 
 class UserController {
@@ -10,7 +12,13 @@ class UserController {
    * @param {*} res
    */
   async index(req, res) {
-    const user = await User.findAll();
+    const { name } = req.params;
+    const user =
+      name !== undefined
+        ? await User.findOne({
+            where: { name: { [Op.like]: decodeURIComponent(name) } },
+          })
+        : await User.findAll();
 
     return res.json(user);
   }

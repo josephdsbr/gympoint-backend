@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import cors from 'cors';
 
 /* Controllers imports */
 import UserController from './app/controllers/UserController';
@@ -15,7 +16,7 @@ import AuthMiddleware from './app/middlewares/auth';
 import AuthAdminMiddleware from './app/middlewares/admin-auth';
 
 const routes = new Router();
-
+routes.use(cors());
 routes.post('/sessions', SessionController.store);
 
 routes.post('/students', AuthAdminMiddleware, StudentController.store);
@@ -64,6 +65,6 @@ routes.use(AuthMiddleware);
 
 routes.put('/users', UserController.update);
 routes.post('/users', UserController.store);
-routes.get('/users', UserController.index);
+routes.get('/users/:name?', UserController.index);
 
 module.exports = routes;
