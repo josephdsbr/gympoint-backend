@@ -92,9 +92,11 @@ class StudentController {
       email: Yup.string()
         .email()
         .required(),
-      age: Yup.integer().min(0),
-      weight: Yup.double().min(0),
-      height: Yup.double().min(0),
+      age: Yup.number()
+        .integer()
+        .min(0),
+      weight: Yup.number().min(0),
+      height: Yup.number().min(0),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -116,14 +118,28 @@ class StudentController {
     /**
      * Updating and return Student
      */
+    const { name, email, age, weight, height } = req.body;
 
-    const { name, email } = await Student.update(req.body);
+    try {
+      await Student.update(
+        {
+          name,
+          email,
+          age,
+          weight,
+          height,
+        },
+        { where: { id } }
+      );
 
-    return res.json({
-      entity: {
-        user: { name, email },
-      },
-    });
+      return res.json({
+        entity: {
+          user: { name, email },
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
 }
 

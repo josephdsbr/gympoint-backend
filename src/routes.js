@@ -5,7 +5,9 @@ import cors from 'cors';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import StudentController from './app/controllers/StudentController';
+import StudentInfoController from './app/controllers/StudentInfoController';
 import PlanController from './app/controllers/PlanController';
+import PlanInfoController from './app/controllers/PlanInfoController';
 import EnrollmentController from './app/controllers/EnrollmentController';
 import CheckinController from './app/controllers/CheckinController';
 import HelpOrderNotAnswerController from './app/controllers/HelpOrderNotAnswerController';
@@ -20,7 +22,13 @@ routes.use(cors());
 routes.post('/sessions', SessionController.store);
 
 routes.post('/students', AuthAdminMiddleware, StudentController.store);
-routes.get('/students', AuthAdminMiddleware, StudentController.index);
+
+routes.get(
+  '/students/:studentId',
+  AuthAdminMiddleware,
+  StudentInfoController.index
+);
+routes.get('/students/', AuthAdminMiddleware, StudentController.index);
 
 routes.get(
   '/students/help-orders-not-answer',
@@ -44,6 +52,7 @@ routes.get(
 routes.post('/students/:studentId/checkins', CheckinController.store);
 
 routes.post('/plans', AuthAdminMiddleware, PlanController.store);
+routes.get('/plans/:id', AuthAdminMiddleware, PlanInfoController.index);
 routes.put('/plans/:id', AuthAdminMiddleware, PlanController.update);
 routes.delete('/plans/:id', AuthAdminMiddleware, PlanController.delete);
 
@@ -63,6 +72,7 @@ routes.delete(
 routes.get('/plans', AuthAdminMiddleware, PlanController.index);
 routes.use(AuthMiddleware);
 
+routes.put('/students', StudentController.update);
 routes.put('/users', UserController.update);
 routes.post('/users', UserController.store);
 routes.get('/users/:name?', UserController.index);

@@ -85,7 +85,6 @@ class UserController {
     /**
      * Request validator
      */
-
     const schema = Yup.object().shape({
       name: Yup.string(),
       email: Yup.string().email(),
