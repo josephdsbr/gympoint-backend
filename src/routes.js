@@ -4,18 +4,24 @@ import cors from 'cors';
 /* Controllers imports */
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
+
 import StudentController from './app/controllers/StudentController';
 import StudentInfoController from './app/controllers/StudentInfoController';
+
 import PlanController from './app/controllers/PlanController';
 import PlanInfoController from './app/controllers/PlanInfoController';
+
 import EnrollmentController from './app/controllers/EnrollmentController';
 import CheckinController from './app/controllers/CheckinController';
-import HelpOrderNotAnswerController from './app/controllers/HelpOrderNotAnswerController';
-import HelpOrderController from './app/controllers/HelpOrderController';
-import HelpOrderAnswerController from './app/controllers/HelpOrderAnswerController';
+
+import HelpOtherNotAnswerController from './app/controllers/HelpOtherNotAnswerController';
+import HelpOtherController from './app/controllers/HelpOtherController';
+import HelpOtherAnswerController from './app/controllers/HelpOtherAnswerController';
+
 /* Middlewares imports */
 import AuthMiddleware from './app/middlewares/auth';
 import AuthAdminMiddleware from './app/middlewares/admin-auth';
+import HelpOtherNotAnswerInfoController from './app/controllers/HelpOtherNotAnswerInfoController';
 
 const routes = new Router();
 routes.use(cors());
@@ -30,19 +36,37 @@ routes.get(
 );
 routes.get('/students/', AuthAdminMiddleware, StudentController.index);
 
-routes.get(
-  '/students/help-orders-not-answer',
-  HelpOrderNotAnswerController.index
-);
+/**
+ * Help Others
+ */
 
-routes.post('/students/:studentId/help-orders', HelpOrderController.store);
-routes.get('/students/:studentId/help-orders', HelpOrderController.index);
+routes.post('/students/:studentId/help-others', HelpOtherController.store);
+routes.get('/students/:studentId/help-others', HelpOtherController.index);
+
+/**
+ * Help Other Not Answer
+ */
+
+routes.get('/help-others-not-answer', HelpOtherNotAnswerController.index);
+
+/**
+ * Help Other Answer
+ */
 
 routes.post(
-  '/help-orders/:id/anwser',
+  '/help-others/:id/anwser',
   AuthAdminMiddleware,
-  HelpOrderAnswerController.store
+  HelpOtherAnswerController.store
 );
+
+/**
+ * Help Other Not Answered Info
+ */
+
+routes.get('/help-others/:id/info', HelpOtherNotAnswerInfoController.index);
+/**
+ * Checkings
+ */
 
 routes.get(
   '/students/:studentId/checkins',

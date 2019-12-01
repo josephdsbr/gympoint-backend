@@ -1,7 +1,7 @@
 /** Libraries Imports */
 import * as Yup from 'yup';
 /** Models Imports */
-import HelpOrder from '../models/HelpOrders';
+import HelpOther from '../models/HelpOther';
 import Student from '../models/Students';
 
 class HelpOrderController {
@@ -30,13 +30,13 @@ class HelpOrderController {
      * Returning List of HelpOrders
      */
 
-    const helpOrder = await HelpOrder.findAll({
+    const helpOther = await HelpOther.findAll({
       where: {
         student_id: studentId,
       },
     });
 
-    return res.json(helpOrder);
+    return res.json(helpOther);
   }
 
   /**
@@ -81,9 +81,9 @@ class HelpOrderController {
 
     req.body.student_id = studentId;
 
-    const helpOrder = await HelpOrder.create(req.body);
+    const helpOther = await HelpOther.create(req.body);
 
-    return res.json({ helpOrder });
+    return res.json({ helpOther });
   }
 }
 

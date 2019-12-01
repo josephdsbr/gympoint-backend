@@ -2,13 +2,13 @@
 import * as Yup from 'yup';
 /** Models Imports */
 import Student from '../models/Students';
-import HelpOrder from '../models/HelpOrders';
+import HelpOther from '../models/HelpOther';
 /** Jobs */
 import AnswerMail from '../jobs/AnswerMail';
 /** Other */
 import Queue from '../../lib/Queue';
 
-class HelpOrderAnswer {
+class HelpOtherAnswer {
   /**
    * Store a answer to HelpOrder
    * @param {*} req
@@ -38,7 +38,7 @@ class HelpOrderAnswer {
      * HelpOrder validation
      */
 
-    const helpOrder = await HelpOrder.findByPk(id, {
+    const helpOther = await HelpOther.findByPk(id, {
       include: [
         {
           model: Student,
@@ -48,7 +48,7 @@ class HelpOrderAnswer {
       ],
     });
 
-    if (!helpOrder) {
+    if (!helpOther) {
       return res.status(401).json({ error: 'Request does not exist' });
     }
 
@@ -58,12 +58,12 @@ class HelpOrderAnswer {
 
     req.body.answer_at = new Date();
 
-    await helpOrder.update(req.body);
+    await helpOther.update(req.body);
 
-    Queue.add(AnswerMail.key, { helpOrder });
+    Queue.add(AnswerMail.key, { helpOther });
 
-    return res.json(helpOrder);
+    return res.json(helpOther);
   }
 }
 
-export default new HelpOrderAnswer();
+export default new HelpOtherAnswer();
