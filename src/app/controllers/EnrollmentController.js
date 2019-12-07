@@ -24,12 +24,12 @@ class EnrollmentController {
         {
           model: Student,
           as: 'student',
-          attributes: ['name'],
+          attributes: ['id', 'name'],
         },
         {
           model: Plan,
           as: 'plan',
-          attributes: ['title'],
+          attributes: ['id', 'title'],
         },
       ],
     });
