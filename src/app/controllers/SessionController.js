@@ -53,16 +53,15 @@ class SessionController {
     const { id, name } = user;
 
     return res.json({
-      entity: {
-        user: {
-          id,
-          name,
-        },
-        token: jwt.sign({ id }, authConfig.secret, {
-          expiresIn: authConfig.expiresIn,
-        }),
+      user: {
+        id,
+        name,
       },
-    });
+      token: jwt.sign({ id }, authConfig.secret, {
+        expiresIn: authConfig.expiresIn,
+      }),
+    },
+  );
   }
 }
 
