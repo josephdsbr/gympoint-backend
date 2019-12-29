@@ -35,7 +35,7 @@ routes.get(
   StudentInfoController.index
 );
 routes.get('/students/', AuthAdminMiddleware, StudentController.index);
-
+routes.delete('/students/:studentId', StudentController.delete);
 /**
  * Help Others
  */
