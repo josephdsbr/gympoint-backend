@@ -22,6 +22,7 @@ import HelpOtherAnswerController from './app/controllers/HelpOtherAnswerControll
 import AuthMiddleware from './app/middlewares/auth';
 import AuthAdminMiddleware from './app/middlewares/admin-auth';
 import HelpOtherNotAnswerInfoController from './app/controllers/HelpOtherNotAnswerInfoController';
+import EnrollmentInfoController from './app/controllers/EnrollmentInfoController';
 
 const routes = new Router();
 routes.use(cors());
@@ -29,13 +30,10 @@ routes.post('/sessions', SessionController.store);
 
 routes.post('/students', AuthAdminMiddleware, StudentController.store);
 
-routes.get(
-  '/students/:studentId',
-  AuthAdminMiddleware,
-  StudentInfoController.index
-);
+routes.get('/students/:studentId', StudentInfoController.index);
 routes.get('/students/', AuthAdminMiddleware, StudentController.index);
 routes.delete('/students/:studentId', StudentController.delete);
+
 /**
  * Help Others
  */
@@ -80,6 +78,11 @@ routes.get('/plans/:id', AuthAdminMiddleware, PlanInfoController.index);
 routes.put('/plans/:id', AuthAdminMiddleware, PlanController.update);
 routes.delete('/plans/:id', AuthAdminMiddleware, PlanController.delete);
 
+routes.get(
+  '/enrollments/:enrollmentId',
+  AuthAdminMiddleware,
+  EnrollmentInfoController.index
+);
 routes.get('/enrollments', AuthAdminMiddleware, EnrollmentController.index);
 routes.post('/enrollments', AuthAdminMiddleware, EnrollmentController.store);
 routes.put(
