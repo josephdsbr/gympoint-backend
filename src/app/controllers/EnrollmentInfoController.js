@@ -28,7 +28,7 @@ class EnrollmentInfoController {
     });
 
     if (!enrollment) {
-      res.status(400).json({ error: "Enrollment doesn't exist" });
+      return res.status(400).json({ error: "Enrollment doesn't exist" });
     }
 
     return res.json(enrollment);
