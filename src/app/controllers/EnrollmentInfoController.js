@@ -17,7 +17,7 @@ class EnrollmentInfoController {
         {
           model: Student,
           as: 'student',
-          attributes: ['id', 'title'],
+          attributes: ['id', 'name'],
         },
         {
           model: Plan,
