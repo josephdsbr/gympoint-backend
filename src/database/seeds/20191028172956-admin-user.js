@@ -17,10 +17,8 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('users', [
-      {
-        where: { email: 'admin@gympoint.com' },
-      },
-    ]);
+    return queryInterface.bulkDelete('users', {
+      email: 'admin@gympoint.com',
+    });
   },
 };
