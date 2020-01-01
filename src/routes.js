@@ -78,11 +78,7 @@ routes.get('/plans/:id', AuthAdminMiddleware, PlanInfoController.index);
 routes.put('/plans/:id', AuthAdminMiddleware, PlanController.update);
 routes.delete('/plans/:id', AuthAdminMiddleware, PlanController.delete);
 
-routes.get(
-  '/enrollments/:enrollmentId',
-  AuthAdminMiddleware,
-  EnrollmentInfoController.index
-);
+routes.get('/enrollments/:enrollmentId', EnrollmentInfoController.index);
 routes.get('/enrollments', AuthAdminMiddleware, EnrollmentController.index);
 routes.post('/enrollments', AuthAdminMiddleware, EnrollmentController.store);
 routes.put(
